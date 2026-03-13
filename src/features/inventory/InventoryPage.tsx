@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import { AllCommunityModule, ModuleRegistry, type ColDef } from 'ag-grid-community';
-import { Warehouse, AlertTriangle, Package, TrendingDown, Search, RefreshCw, ArrowDownUp } from 'lucide-react';
+import { Warehouse, AlertTriangle, Package, TrendingDown, Search, RefreshCw } from 'lucide-react';
 import { inventoryApi } from '@/mocks/api';
 import type { StockEntry, StockStatus } from '@/types';
 
@@ -40,29 +40,28 @@ export const InventoryPage: React.FC = () => {
   }, [loadData]);
 
   const columnDefs = useMemo<ColDef<StockEntry>[]>(() => [
-    { headerName: 'SKU', field: 'sku', width: 140, cellStyle: { fontFamily: 'var(--font-mono)', fontSize: '12px' } },
+    { headerName: 'SKU', field: 'sku', width: 140, cellStyle: { fontSize: '12px', color: 'inherit' } },
     { headerName: 'Product', field: 'productName', flex: 2, minWidth: 220 },
     { headerName: 'Warehouse', field: 'warehouseName', width: 160 },
     {
       headerName: 'Quantity', field: 'quantity', width: 110,
-      cellStyle: (params) => ({
-        fontWeight: 700,
+      cellStyle: ((params: any) => ({
         color: params.value === 0 ? 'var(--color-text-danger)' : params.value <= 10 ? 'var(--color-text-warning)' : 'var(--color-text-primary)',
-      }),
+      })) as any,
     },
-    { headerName: 'Reserved', field: 'reservedQuantity', width: 100, cellStyle: { color: 'var(--color-text-secondary)' } },
+    { headerName: 'Reserved', field: 'reservedQuantity', width: 100, cellStyle: { color: 'var(--color-text-secondary)' } as any },
     {
       headerName: 'Available', field: 'availableQuantity', width: 110,
-      cellStyle: (params) => ({
-        fontWeight: 600,
+      cellStyle: ((params: any) => ({
         color: params.value <= 0 ? 'var(--color-text-danger)' : 'var(--color-text-success)',
-      }),
+      })) as any,
     },
-    { headerName: 'Reorder Point', field: 'reorderPoint', width: 120, cellStyle: { color: 'var(--color-text-tertiary)', fontSize: '12px' } },
+    { headerName: 'Reorder Point', field: 'reorderPoint', width: 120, cellStyle: { color: 'var(--color-text-tertiary)', fontSize: '12px' } as any },
     {
       headerName: 'Status', field: 'status', width: 130,
-      cellRenderer: (params: { value: StockStatus }) => {
-        const cfg = statusColors[params.value];
+      cellRenderer: (params: any) => {
+        const val = params.value as StockStatus;
+        const cfg = statusColors[val] || statusColors.out_of_stock;
         return (
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '3px 10px', borderRadius: '99px', fontSize: '12px', fontWeight: 600, color: cfg.color, background: cfg.bg }}>
             {cfg.label}
@@ -73,7 +72,7 @@ export const InventoryPage: React.FC = () => {
     {
       headerName: 'Last Counted', field: 'lastCountedAt', width: 140,
       valueFormatter: (params) => params.value ? new Date(params.value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Never',
-      cellStyle: { fontSize: '12px', color: 'var(--color-text-tertiary)' },
+      cellStyle: { fontSize: '12px', color: 'var(--color-text-tertiary)' } as any,
     },
   ], []);
 

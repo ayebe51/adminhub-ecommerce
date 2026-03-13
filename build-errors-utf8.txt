@@ -1,0 +1,8 @@
+﻿src/features/products/ProductsPage.tsx(70,55): error TS2322: Type '({ headerCheckboxSelection: true; checkboxSelection: true; maxWidth: number; resizable: false; sortable: false; filter: boolean; headerName?: undefined; field?: undefined; width?: undefined; cellStyle?: undefined; ... 6 more ...; sort?: undefined; } | ... 9 more ... | { ...; })[]' is not assignable to type 'ColDef<Product, any>[]'.
+  Type '{ headerCheckboxSelection: true; checkboxSelection: true; maxWidth: number; resizable: false; sortable: false; filter: boolean; headerName?: undefined; field?: undefined; width?: undefined; cellStyle?: undefined; ... 6 more ...; sort?: undefined; } | ... 9 more ... | { ...; }' is not assignable to type 'ColDef<Product, any>'.
+    Type '{ headerName: string; field: "price"; width: number; editable: true; cellStyle: { fontWeight: number; color?: undefined; fontSize?: undefined; }; valueFormatter: (params: ValueFormatterParams<Product, any, any>) => string; ... 10 more ...; sort?: undefined; }' is not assignable to type 'ColDef<Product, any>'.
+      Types of property 'cellStyle' are incompatible.
+        Type '{ fontWeight: number; color?: undefined; fontSize?: undefined; }' is not assignable to type 'CellStyle | CellStyleFunc<Product, any, any> | undefined'.
+          Type '{ fontWeight: number; color?: undefined; fontSize?: undefined; }' is not assignable to type 'CellStyle'.
+            Property 'color' is incompatible with index signature.
+              Type 'undefined' is not assignable to type 'string | number'.

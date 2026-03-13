@@ -195,7 +195,7 @@ export const DashboardPage: React.FC = () => {
                     fontSize: '13px',
                     color: '#f1f5f9',
                   }}
-                  formatter={(value: number) => [`$${value.toLocaleString()}`, 'Revenue']}
+                  formatter={(value: any) => [`$${Number(value).toLocaleString()}`, 'Revenue']}
                 />
                 <Area type="monotone" dataKey="revenue" stroke="#6366f1" strokeWidth={2} fill="url(#revenueGradient)" />
               </AreaChart>
@@ -227,7 +227,7 @@ export const DashboardPage: React.FC = () => {
                 </Pie>
                 <Tooltip
                   contentStyle={{ background: '#1a1a3e', border: '1px solid rgba(148,163,184,0.12)', borderRadius: '8px', fontSize: '13px', color: '#f1f5f9' }}
-                  formatter={(value: number) => [`${value}%`, 'Share']}
+                  formatter={(value: any) => [`${value}%`, 'Share']}
                 />
               </PieChart>
             </ResponsiveContainer>

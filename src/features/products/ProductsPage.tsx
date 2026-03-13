@@ -80,7 +80,7 @@ export const ProductsPage: React.FC = () => {
       headerName: 'SKU',
       field: 'sku',
       width: 140,
-      cellStyle: { fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--color-text-secondary)' },
+      cellStyle: { fontSize: '12px', color: 'var(--color-text-secondary)' } as any,
     },
     {
       headerName: 'Product Name',
@@ -116,7 +116,7 @@ export const ProductsPage: React.FC = () => {
       field: 'price',
       width: 110,
       editable: true,
-      cellStyle: { fontWeight: 600 },
+      cellStyle: { fontWeight: 600 } as any,
       valueFormatter: (params) => `$${params.value?.toFixed(2)}`,
       filter: 'agNumberColumnFilter',
     },
@@ -138,7 +138,6 @@ export const ProductsPage: React.FC = () => {
       valueFormatter: (params) => `${params.value}%`,
       cellStyle: (params) => ({
         color: params.value > 40 ? 'var(--color-text-success)' : params.value > 20 ? 'var(--color-text-warning)' : 'var(--color-text-danger)',
-        fontWeight: 600,
         fontSize: '12px',
       }),
     },
@@ -149,8 +148,7 @@ export const ProductsPage: React.FC = () => {
       editable: true,
       filter: 'agNumberColumnFilter',
       cellStyle: (params) => ({
-        color: params.value === 0 ? 'var(--color-text-danger)' : params.value <= 10 ? 'var(--color-text-warning)' : 'var(--color-text-primary)',
-        fontWeight: 600,
+        color: params.value === 0 ? 'var(--color-text-danger)' : params.value <= 10 ? 'var(--color-text-warning)' : 'var(--color-text-primary)'
       }),
     },
     {
@@ -464,7 +462,7 @@ export const ProductsPage: React.FC = () => {
           rowData={rowData}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
-          selection={{ mode: 'multiRow', checkboxes: true, headerCheckbox: true }}
+          rowSelection="multiple"
           onSelectionChanged={onSelectionChanged}
           animateRows={true}
           pagination={true}
