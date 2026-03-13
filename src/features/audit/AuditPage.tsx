@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-  ClipboardList, Search, Filter, Calendar, User, ArrowRight,
-  Package, Warehouse, Zap, Tag, ChevronDown, ChevronRight
+  ClipboardList, Search, Filter, User, ArrowRight,
+  Package, Warehouse, Zap, Tag, ChevronRight
 } from 'lucide-react';
 import { auditApi } from '@/mocks/api';
-import type { AuditEntry, EntityType, AuditAction } from '@/types';
+import type { AuditEntry, EntityType } from '@/types';
 
 const entityIcons: Record<EntityType, React.ReactNode> = {
   product: <Package size={16} />,

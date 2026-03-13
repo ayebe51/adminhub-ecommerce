@@ -45,21 +45,21 @@ export const InventoryPage: React.FC = () => {
     { headerName: 'Warehouse', field: 'warehouseName', width: 160 },
     {
       headerName: 'Quantity', field: 'quantity', width: 110,
-      cellStyle: ((params: any) => ({
+      cellStyle: (params) => ({
         color: params.value === 0 ? 'var(--color-text-danger)' : params.value <= 10 ? 'var(--color-text-warning)' : 'var(--color-text-primary)',
-      })) as any,
+      } as Record<string, string | number>),
     },
-    { headerName: 'Reserved', field: 'reservedQuantity', width: 100, cellStyle: { color: 'var(--color-text-secondary)' } as any },
+    { headerName: 'Reserved', field: 'reservedQuantity', width: 100, cellStyle: { color: 'var(--color-text-secondary)' } as Record<string, string | number> },
     {
       headerName: 'Available', field: 'availableQuantity', width: 110,
-      cellStyle: ((params: any) => ({
+      cellStyle: (params) => ({
         color: params.value <= 0 ? 'var(--color-text-danger)' : 'var(--color-text-success)',
-      })) as any,
+      } as Record<string, string | number>),
     },
-    { headerName: 'Reorder Point', field: 'reorderPoint', width: 120, cellStyle: { color: 'var(--color-text-tertiary)', fontSize: '12px' } as any },
+    { headerName: 'Reorder Point', field: 'reorderPoint', width: 120, cellStyle: { color: 'var(--color-text-tertiary)', fontSize: '12px' } as Record<string, string | number> },
     {
       headerName: 'Status', field: 'status', width: 130,
-      cellRenderer: (params: any) => {
+      cellRenderer: (params: { value: StockStatus }) => {
         const val = params.value as StockStatus;
         const cfg = statusColors[val] || statusColors.out_of_stock;
         return (
@@ -72,7 +72,7 @@ export const InventoryPage: React.FC = () => {
     {
       headerName: 'Last Counted', field: 'lastCountedAt', width: 140,
       valueFormatter: (params) => params.value ? new Date(params.value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Never',
-      cellStyle: { fontSize: '12px', color: 'var(--color-text-tertiary)' } as any,
+      cellStyle: { fontSize: '12px', color: 'var(--color-text-tertiary)' } as Record<string, string | number>,
     },
   ], []);
 

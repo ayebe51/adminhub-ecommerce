@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Package, Warehouse, Zap, ClipboardList, TrendingUp, TrendingDown,
+  Package, TrendingUp, TrendingDown,
   ArrowUpRight, AlertTriangle, ShoppingCart, DollarSign,
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area, PieChart, Pie, Cell } from 'recharts';
@@ -195,7 +195,8 @@ export const DashboardPage: React.FC = () => {
                     fontSize: '13px',
                     color: '#f1f5f9',
                   }}
-                  formatter={(value: any) => [`$${Number(value).toLocaleString()}`, 'Revenue']}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  formatter={(value: any) => [`$${Number(value || 0).toLocaleString()}`, 'Revenue']}
                 />
                 <Area type="monotone" dataKey="revenue" stroke="#6366f1" strokeWidth={2} fill="url(#revenueGradient)" />
               </AreaChart>
@@ -227,7 +228,8 @@ export const DashboardPage: React.FC = () => {
                 </Pie>
                 <Tooltip
                   contentStyle={{ background: '#1a1a3e', border: '1px solid rgba(148,163,184,0.12)', borderRadius: '8px', fontSize: '13px', color: '#f1f5f9' }}
-                  formatter={(value: any) => [`${value}%`, 'Share']}
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  formatter={(value: any) => [`${value || 0}%`, 'Share']}
                 />
               </PieChart>
             </ResponsiveContainer>

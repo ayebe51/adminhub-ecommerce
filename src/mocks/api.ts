@@ -3,9 +3,9 @@ import type { Product, BulkOperationResult } from '@/types';
 
 // ── Initialize 10k+ products ─────────────────────────
 let products = generateProducts(10000);
-let stockEntries = generateStockEntries(products);
+const stockEntries = generateStockEntries(products);
 let promotions = generatePromotions();
-let auditEntries = generateAuditEntries(500);
+const auditEntries = generateAuditEntries(500);
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 

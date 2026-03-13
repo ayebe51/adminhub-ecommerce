@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useRef, useMemo, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import { AllCommunityModule, ModuleRegistry, type ColDef, type GridReadyEvent, type SelectionChangedEvent, type GridApi } from 'ag-grid-community';
+import { AllCommunityModule, ModuleRegistry, type ColDef, type SelectionChangedEvent } from 'ag-grid-community';
 import {
-  Download, Upload, Trash2, Edit3, RefreshCw, Filter,
+  Download, Upload, Trash2, Edit3, RefreshCw,
   CheckCircle2, AlertCircle, Archive, Clock, Eye, EyeOff, Search, X, ChevronDown
 } from 'lucide-react';
 import { productsApi } from '@/mocks/api';
@@ -80,7 +80,7 @@ export const ProductsPage: React.FC = () => {
       headerName: 'SKU',
       field: 'sku',
       width: 140,
-      cellStyle: { fontSize: '12px', color: 'var(--color-text-secondary)' } as any,
+      cellStyle: { fontSize: '12px', color: 'var(--color-text-secondary)' } as Record<string, string | number>,
     },
     {
       headerName: 'Product Name',
@@ -116,7 +116,7 @@ export const ProductsPage: React.FC = () => {
       field: 'price',
       width: 110,
       editable: true,
-      cellStyle: { fontWeight: 600 } as any,
+      cellStyle: { fontWeight: 600 } as Record<string, string | number>,
       valueFormatter: (params) => `$${params.value?.toFixed(2)}`,
       filter: 'agNumberColumnFilter',
     },
@@ -125,7 +125,7 @@ export const ProductsPage: React.FC = () => {
       field: 'costPrice',
       width: 100,
       valueFormatter: (params) => `$${params.value?.toFixed(2)}`,
-      cellStyle: { color: 'var(--color-text-secondary)', fontSize: '12px' },
+      cellStyle: { color: 'var(--color-text-secondary)', fontSize: '12px' } as Record<string, string | number>,
     },
     {
       headerName: 'Margin',
@@ -139,7 +139,7 @@ export const ProductsPage: React.FC = () => {
       cellStyle: (params) => ({
         color: params.value > 40 ? 'var(--color-text-success)' : params.value > 20 ? 'var(--color-text-warning)' : 'var(--color-text-danger)',
         fontSize: '12px',
-      }),
+      } as Record<string, string | number>),
     },
     {
       headerName: 'Stock',
@@ -149,7 +149,7 @@ export const ProductsPage: React.FC = () => {
       filter: 'agNumberColumnFilter',
       cellStyle: (params) => ({
         color: params.value === 0 ? 'var(--color-text-danger)' : params.value <= 10 ? 'var(--color-text-warning)' : 'var(--color-text-primary)'
-      }),
+      } as Record<string, string | number>),
     },
     {
       headerName: 'Status',
@@ -178,7 +178,7 @@ export const ProductsPage: React.FC = () => {
         return new Date(params.value).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
       },
       sort: 'desc',
-      cellStyle: { fontSize: '12px', color: 'var(--color-text-tertiary)' },
+      cellStyle: { fontSize: '12px', color: 'var(--color-text-tertiary)' } as Record<string, string | number>,
     },
   ], []);
 

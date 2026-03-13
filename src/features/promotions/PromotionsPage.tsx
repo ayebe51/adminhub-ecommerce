@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   Zap, Plus, Calendar, Eye, Edit3, Trash2, Play, Pause,
-  ChevronDown, ChevronRight, AlertCircle, CheckCircle2, Clock, Archive,
+  ChevronDown, ChevronRight, AlertCircle, Clock, Archive,
   X, GripVertical, Copy
 } from 'lucide-react';
 import { promotionsApi } from '@/mocks/api';
