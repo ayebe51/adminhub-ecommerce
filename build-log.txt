@@ -1,0 +1,178 @@
+﻿[36mvite v8.0.0 [32mbuilding client environment for production...[36m[39m
+[2K
+transforming...✓ 2379 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                               1.16 kB │ gzip:   0.55 kB
+dist/assets/index-BsYEzQm7.css               10.94 kB │ gzip:   3.23 kB
+dist/assets/triangle-alert-D47aoNo4.js        0.39 kB │ gzip:   0.26 kB
+dist/assets/react-BBxo0TAN.js                 0.65 kB │ gzip:   0.40 kB
+dist/assets/x-OvY-X_MF.js                     1.41 kB │ gzip:   0.65 kB
+dist/assets/FeatureFlagsPage-BOnF66ls.js      4.00 kB │ gzip:   1.45 kB
+dist/assets/InventoryPage-CagaJz13.js         5.98 kB │ gzip:   2.10 kB
+dist/assets/immer-BD1WttaR.js                 9.03 kB │ gzip:   3.71 kB
+dist/assets/AuditPage-2qh1P7BG.js             9.37 kB │ gzip:   2.90 kB
+dist/assets/createLucideIcon-j4o5em8U.js      9.65 kB │ gzip:   3.81 kB
+dist/assets/api-CObuMHIz.js                  14.00 kB │ gzip:   4.83 kB
+dist/assets/PromotionsPage-D57keYuL.js       22.20 kB │ gzip:   5.23 kB
+dist/assets/ProductsPage-YEpH15mE.js         32.53 kB │ gzip:  11.15 kB
+dist/assets/index-hCiK8H5J.js               314.37 kB │ gzip:  98.87 kB
+dist/assets/DashboardPage-Bxg7YIM8.js       370.77 kB │ gzip: 106.34 kB
+dist/assets/index.esm-CelGocnc.js         1,084.23 kB │ gzip: 304.07 kB
+
+npx : [33m[plugin bui
+ltin:vite-reporter] 
+At line:1 char:59
++ ... tEncoding = [Sys
+tem.Text.Encoding]::UT
+F8; npx vite build 2>&
+1 | Out-F ...
++                     
+                      
+    ~~~~~~~~~~~~~~~~~~
+~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: ([33m[plug   
+ in builtin:vite-r    
+eporter] :String)     
+[], RemoteExcept    io
+n
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+(!) Some chunks are la
+rger than 500 kB after
+ minification. Conside
+r:
+- Using dynamic import
+() to code-split the a
+pplication
+- Use build.rolldownOp
+tions.output.codeSplit
+ting to improve chunki
+ng: https://rolldown.r
+s/reference/OutputOpti
+ons.codeSplitting
+- Adjust chunk size li
+mit for this warning v
+ia build.chunkSizeWarn
+ingLimit.[39m
+[31m✗[39m Build fail
+ed in 532ms
+[31merror during buil
+d:
+[31mBuild failed with
+ 1 error:
+
+Error: [vite]: Rolldow
+n failed to resolve im
+port "react-is" from "
+D:/apss-source/fe/e-co
+mmerce/node_modules/re
+charts/es6/util/ReactU
+tils.js".
+This is most likely un
+intended because it ca
+n break your applicati
+on at runtime.
+If you do want to exte
+rnalize this module ex
+plicitly add it to
+`build.rollupOptions.e
+xternal`
+    at viteLog (file:/
+//D:/apss-source/fe/e-
+commerce/node_modules/
+vite/dist/node/chunks/
+node.js:32887:57)
+    at file:///D:/apss
+-source/fe/e-commerce/
+node_modules/vite/dist
+/node/chunks/node.js:3
+2923:71
+    at onwarn (file://
+/D:/apss-source/fe/e-c
+ommerce/node_modules/@
+vitejs/plugin-react/di
+st/index.js:40:7)
+    at file:///D:/apss
+-source/fe/e-commerce/
+node_modules/vite/dist
+/node/chunks/node.js:3
+2923:28
+    at onRollupLog (fi
+le:///D:/apss-source/f
+e/e-commerce/node_modu
+les/vite/dist/node/chu
+nks/node.js:32918:63)
+    at onLog (file:///
+D:/apss-source/fe/e-co
+mmerce/node_modules/vi
+te/dist/node/chunks/no
+de.js:32688:4)
+    at file:///D:/apss
+-source/fe/e-commerce/
+node_modules/rolldown/
+dist/shared/rolldown-b
+uild-4YnQkA76.mjs:49:2
+6
+    at logger (file://
+/D:/apss-source/fe/e-c
+ommerce/node_modules/r
+olldown/dist/shared/ro
+lldown-build-4YnQkA76.
+mjs:40:3)
+    at onLog (file:///
+D:/apss-source/fe/e-co
+mmerce/node_modules/ro
+lldown/dist/shared/bin
+dingify-input-options-
+Cu7pt6SZ.mjs:1945:32)
+[31m
+    at aggregateBindin
+gErrorsIntoJsError (fi
+le:///D:/apss-source/f
+e/e-commerce/node_modu
+les/rolldown/dist/shar
+ed/error-CP8smW_P.mjs:
+48:18)
+    at unwrapBindingRe
+sult (file:///D:/apss-
+source/fe/e-commerce/n
+ode_modules/rolldown/d
+ist/shared/error-CP8sm
+W_P.mjs:18:128)
+    at #build (file://
+/D:/apss-source/fe/e-c
+ommerce/node_modules/r
+olldown/dist/shared/ro
+lldown-build-4YnQkA76.
+mjs:3311:34)
+    at async buildEnvi
+ronment (file:///D:/ap
+ss-source/fe/e-commerc
+e/node_modules/vite/di
+st/node/chunks/node.js
+:32794:64)
+    at async Object.bu
+ild (file:///D:/apss-s
+ource/fe/e-commerce/no
+de_modules/vite/dist/n
+ode/chunks/node.js:332
+16:19)
+    at async Object.bu
+ildApp (file:///D:/aps
+s-source/fe/e-commerce
+/node_modules/vite/dis
+t/node/chunks/node.js:
+33213:153)
+    at async CAC.<anon
+ymous> (file:///D:/aps
+s-source/fe/e-commerce
+/node_modules/vite/dis
+t/node/cli.js:778:3) {
+  errors: [Getter/Sett
+er]
+}[39m
