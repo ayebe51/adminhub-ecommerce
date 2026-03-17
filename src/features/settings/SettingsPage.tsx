@@ -11,6 +11,8 @@ import {
   Key,
   Smartphone,
   CheckCircle2,
+  Sun,
+  Moon,
 } from 'lucide-react';
 
 type SettingsTab = 'general' | 'profile' | 'notifications' | 'security' | 'integrations';
@@ -192,6 +194,64 @@ export const SettingsPage: React.FC = () => {
                       <Globe size={14} style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-tertiary)' }} />
                     </div>
                   </div>
+                </div>
+              </div>
+
+              <div style={{ borderTop: '1px solid var(--color-border-secondary)', paddingTop: '24px' }}>
+                <h3 style={{ fontSize: '18px', fontWeight: 600, color: 'var(--color-text-primary)', margin: '0 0 16px' }}>Appearance</h3>
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <button
+                    onClick={() => {
+                      document.documentElement.setAttribute('data-theme', 'light');
+                      localStorage.setItem('theme', 'light');
+                      window.location.reload();
+                    }}
+                    style={{
+                      flex: 1,
+                      padding: '16px',
+                      borderRadius: 'var(--radius-lg)',
+                      border: '1px solid var(--color-border-primary)',
+                      background: 'var(--color-surface-tertiary)',
+                      color: 'var(--color-text-primary)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <Sun size={20} />
+                    <div style={{ textAlign: 'left' }}>
+                      <div style={{ fontSize: '14px', fontWeight: 600 }}>Light Mode</div>
+                      <div style={{ fontSize: '11px', color: 'var(--color-text-tertiary)' }}>Clean and bright interface</div>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => {
+                      document.documentElement.setAttribute('data-theme', 'dark');
+                      localStorage.setItem('theme', 'dark');
+                      window.location.reload();
+                    }}
+                    style={{
+                      flex: 1,
+                      padding: '16px',
+                      borderRadius: 'var(--radius-lg)',
+                      border: '1px solid var(--color-brand-500)',
+                      background: 'rgba(99, 102, 241, 0.1)',
+                      color: 'var(--color-brand-400)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <Moon size={20} />
+                    <div style={{ textAlign: 'left' }}>
+                      <div style={{ fontSize: '14px', fontWeight: 600 }}>Dark Mode</div>
+                      <div style={{ fontSize: '11px', color: 'var(--color-brand-400)', opacity: 0.8 }}>Professional dark theme</div>
+                    </div>
+                  </button>
                 </div>
               </div>
             </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { Bell, Search, Undo2, Redo2, ChevronRight } from 'lucide-react';
+import { Bell, Search, Undo2, Redo2, ChevronRight, Sun, Moon } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useBulkOperations } from '@/store/useBulkOperations';
 
@@ -14,7 +14,22 @@ const breadcrumbMap: Record<string, string> = {
   '/settings': 'Settings',
 };
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+  onOpenPalette: () => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({ onOpenPalette }) => {
+  const [theme, setTheme] = React.useState<'dark' | 'light'>(
+    (localStorage.getItem('theme') as 'dark' | 'light') || 'dark'
+  );
+
+  React.useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+
   const location = useLocation();
   const user = useAuthStore((s) => s.user);
   const { canUndo, canRedo, undo, redo, getUndoDescription, getRedoDescription } = useBulkOperations();
@@ -121,8 +136,30 @@ export const Header: React.FC = () => {
           </button>
         </div>
 
+        {/* Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '38px',
+            height: '38px',
+            border: '1px solid var(--color-border-primary)',
+            borderRadius: 'var(--radius-md)',
+            background: 'transparent',
+            color: 'var(--color-text-secondary)',
+            cursor: 'pointer',
+            transition: 'all var(--transition-fast)',
+          }}
+          aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+        >
+          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
+
         {/* Search */}
         <button
+          onClick={onOpenPalette}
           style={{
             display: 'flex',
             alignItems: 'center',
