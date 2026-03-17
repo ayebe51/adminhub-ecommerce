@@ -10,6 +10,7 @@ const InventoryPage = lazy(() => import('@/features/inventory/InventoryPage').th
 const PromotionsPage = lazy(() => import('@/features/promotions/PromotionsPage').then(m => ({ default: m.PromotionsPage })));
 const AuditPage = lazy(() => import('@/features/audit/AuditPage').then(m => ({ default: m.AuditPage })));
 const FeatureFlagsPage = lazy(() => import('@/features/flags/FeatureFlagsPage').then(m => ({ default: m.FeatureFlagsPage })));
+const SettingsPage = lazy(() => import('@/features/settings/SettingsPage').then(m => ({ default: m.SettingsPage })));
 
 const LoadingFallback = () => (
   <div style={{
@@ -39,6 +40,7 @@ const router = createBrowserRouter([
       { path: 'promotions', element: <Suspense fallback={<LoadingFallback />}><PromotionsPage /></Suspense> },
       { path: 'audit', element: <Suspense fallback={<LoadingFallback />}><AuditPage /></Suspense> },
       { path: 'flags', element: <Suspense fallback={<LoadingFallback />}><FeatureFlagsPage /></Suspense> },
+      { path: 'settings', element: <Suspense fallback={<LoadingFallback />}><SettingsPage /></Suspense> },
     ],
   },
 ]);
