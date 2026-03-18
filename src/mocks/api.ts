@@ -1,41 +1,47 @@
 import { generateProducts, generateStockEntries, generatePromotions, generateAuditEntries, CATEGORIES, BRANDS } from './data';
-import type { Product, BulkOperationResult } from '@/types';
+import type { Product, BulkOperationResult, PromotionRule } from '@/types';
+import { db, initializePersistence } from '@/lib/persistence';
 
-// ── Initialize 10k+ products ─────────────────────────
-let products = generateProducts(10000);
-const stockEntries = generateStockEntries(products);
-let promotions = generatePromotions();
-const auditEntries = generateAuditEntries(500);
+// Initialize data if needed
+const initialProducts = generateProducts(10000);
+initializePersistence({
+  products: initialProducts,
+  inventory: generateStockEntries(initialProducts),
+  promotions: generatePromotions(),
+  auditLogs: generateAuditEntries(500),
+});
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // ── Products API ──────────────────────────────────────
 export const productsApi = {
   async getAll(page = 1, pageSize = 100, search?: string, filters?: Record<string, unknown>) {
-    await delay(200);
-    let filtered = [...products];
+    await delay(100);
+    let collection = db.products.toCollection();
 
     if (search) {
       const q = search.toLowerCase();
-      filtered = filtered.filter(p =>
-        p.name.toLowerCase().includes(q) ||
-        p.sku.toLowerCase().includes(q) ||
+      collection = db.products.filter(p => 
+        p.name.toLowerCase().includes(q) || 
+        p.sku.toLowerCase().includes(q) || 
         p.brandName.toLowerCase().includes(q)
       );
     }
 
+    let items = await collection.toArray();
+
     if (filters) {
       if (filters.status && Array.isArray(filters.status) && filters.status.length > 0) {
-        filtered = filtered.filter(p => (filters.status as string[]).includes(p.status));
+        items = items.filter(p => (filters.status as string[]).includes(p.status));
       }
       if (filters.categoryId && Array.isArray(filters.categoryId) && filters.categoryId.length > 0) {
-        filtered = filtered.filter(p => (filters.categoryId as string[]).includes(p.categoryId));
+        items = items.filter(p => (filters.categoryId as string[]).includes(p.categoryId));
       }
     }
 
-    const total = filtered.length;
+    const total = items.length;
     const start = (page - 1) * pageSize;
-    const data = filtered.slice(start, start + pageSize);
+    const data = items.slice(start, start + pageSize);
 
     return {
       data,
@@ -49,61 +55,64 @@ export const productsApi = {
   },
 
   async getById(id: string) {
-    await delay(100);
-    return products.find(p => p.id === id) ?? null;
+    await delay(50);
+    return await db.products.get(id) ?? null;
   },
 
   async create(data: Partial<Product>) {
-    await delay(300);
+    await delay(200);
     const newProduct: Product = {
       ...generateProducts(1)[0],
       ...data,
+      id: crypto.randomUUID(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       version: 1,
     };
-    products = [newProduct, ...products];
+    await db.products.add(newProduct);
     return newProduct;
   },
 
   async update(id: string, data: Partial<Product>, expectedVersion: number) {
-    await delay(200);
-    const idx = products.findIndex(p => p.id === id);
-    if (idx === -1) throw new Error('Product not found');
-    if (products[idx].version !== expectedVersion) {
-      throw new Error(`Version conflict: expected ${expectedVersion}, got ${products[idx].version}`);
+    await delay(100);
+    const product = await db.products.get(id);
+    if (!product) throw new Error('Product not found');
+    if (product.version !== expectedVersion) {
+      throw new Error(`Version conflict: expected ${expectedVersion}, got ${product.version}`);
     }
-    products[idx] = { ...products[idx], ...data, version: products[idx].version + 1, updatedAt: new Date().toISOString() };
-    return products[idx];
+    const updated = { ...product, ...data, version: product.version + 1, updatedAt: new Date().toISOString() };
+    await db.products.put(updated);
+    return updated;
   },
 
   async bulkUpdate(ids: string[], changes: Partial<Product>, expectedVersions: Record<string, number>): Promise<BulkOperationResult> {
-    await delay(500);
+    await delay(300);
     const result: BulkOperationResult = { success: [], failed: [], conflicts: [] };
 
     for (const id of ids) {
-      const idx = products.findIndex(p => p.id === id);
-      if (idx === -1) {
+      const product = await db.products.get(id);
+      if (!product) {
         result.failed.push({ id, reason: 'Product not found', currentVersion: 0 });
         continue;
       }
-      if (expectedVersions[id] !== undefined && products[idx].version !== expectedVersions[id]) {
+      if (expectedVersions[id] !== undefined && product.version !== expectedVersions[id]) {
         result.conflicts.push({
           id,
-          serverVersion: products[idx].version,
+          serverVersion: product.version,
           clientVersion: expectedVersions[id],
         });
         continue;
       }
-      products[idx] = { ...products[idx], ...changes, version: products[idx].version + 1, updatedAt: new Date().toISOString() };
+      const updated = { ...product, ...changes, version: product.version + 1, updatedAt: new Date().toISOString() };
+      await db.products.put(updated);
       result.success.push(id);
     }
     return result;
   },
 
   async delete(ids: string[]) {
-    await delay(300);
-    products = products.filter(p => !ids.includes(p.id));
+    await delay(200);
+    await db.products.bulkDelete(ids);
     return { deleted: ids.length };
   },
 };
@@ -111,29 +120,31 @@ export const productsApi = {
 // ── Inventory API ─────────────────────────────────────
 export const inventoryApi = {
   async getAll(page = 1, pageSize = 100, search?: string, filters?: Record<string, unknown>) {
-    await delay(200);
-    let filtered = [...stockEntries];
+    await delay(100);
+    let collection = db.inventory.toCollection();
 
     if (search) {
       const q = search.toLowerCase();
-      filtered = filtered.filter(s =>
+      collection = db.inventory.filter(s =>
         s.productName.toLowerCase().includes(q) || s.sku.toLowerCase().includes(q)
       );
     }
+    
+    let items = await collection.toArray();
     if (filters?.status && Array.isArray(filters.status) && filters.status.length > 0) {
-      filtered = filtered.filter(s => (filters.status as string[]).includes(s.status));
+      items = items.filter(s => (filters.status as string[]).includes(s.status));
     }
 
-    const total = filtered.length;
+    const total = items.length;
     const start = (page - 1) * pageSize;
-    const data = filtered.slice(start, start + pageSize);
+    const data = items.slice(start, start + pageSize);
 
     return { data, total, page, pageSize, totalPages: Math.ceil(total / pageSize), hasNext: start + pageSize < total, hasPrevious: page > 1 };
   },
 
   async adjustStock(productId: string, quantity: number, type: string, reason: string) {
-    await delay(200);
-    const entry = stockEntries.find(s => s.productId === productId);
+    await delay(100);
+    const entry = await db.inventory.where('productId').equals(productId).first();
     if (!entry) throw new Error('Stock entry not found');
     const prev = entry.quantity;
     if (type === 'received') entry.quantity += quantity;
@@ -142,17 +153,21 @@ export const inventoryApi = {
     entry.availableQuantity = entry.quantity - entry.reservedQuantity;
     entry.status = entry.quantity === 0 ? 'out_of_stock' : entry.quantity <= entry.lowStockThreshold ? 'low_stock' : 'in_stock';
     entry.updatedAt = new Date().toISOString();
+    await db.inventory.put(entry);
     return { previousQuantity: prev, newQuantity: entry.quantity, reason };
   },
 
   async getStats() {
-    await delay(100);
-    const total = stockEntries.length;
-    const inStock = stockEntries.filter(s => s.status === 'in_stock').length;
-    const lowStock = stockEntries.filter(s => s.status === 'low_stock').length;
-    const outOfStock = stockEntries.filter(s => s.status === 'out_of_stock').length;
-    const totalValue = stockEntries.reduce((sum, s) => {
-      const product = products.find(p => p.id === s.productId);
+    await delay(50);
+    const allStock = await db.inventory.toArray();
+    const allProducts = await db.products.toArray();
+
+    const total = allStock.length;
+    const inStock = allStock.filter(s => s.status === 'in_stock').length;
+    const lowStock = allStock.filter(s => s.status === 'low_stock').length;
+    const outOfStock = allStock.filter(s => s.status === 'out_of_stock').length;
+    const totalValue = allStock.reduce((sum, s) => {
+      const product = allProducts.find(p => p.id === s.productId);
       return sum + (product ? product.price * s.quantity : 0);
     }, 0);
     return { total, inStock, lowStock, outOfStock, totalValue };
@@ -162,56 +177,67 @@ export const inventoryApi = {
 // ── Promotions API ────────────────────────────────────
 export const promotionsApi = {
   async getAll() {
-    await delay(200);
-    return promotions;
+    await delay(100);
+    return await db.promotions.toArray();
   },
 
   async getById(id: string) {
-    await delay(100);
-    return promotions.find(p => p.id === id) ?? null;
+    await delay(50);
+    return await db.promotions.get(id) ?? null;
   },
 
-  async create(data: Partial<typeof promotions[0]>) {
-    await delay(300);
-    const promo = { ...generatePromotions()[0], ...data, id: crypto.randomUUID?.() ?? Math.random().toString(36).slice(2), createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), version: 1 };
-    promotions = [promo, ...promotions];
+  async create(data: Partial<PromotionRule>) {
+    await delay(200);
+    const promo: PromotionRule = { 
+      ...generatePromotions()[0], 
+      ...data, 
+      id: crypto.randomUUID(), 
+      createdAt: new Date().toISOString(), 
+      updatedAt: new Date().toISOString(), 
+      version: 1 
+    };
+    await db.promotions.add(promo);
     return promo;
   },
 
-  async update(id: string, data: Partial<typeof promotions[0]>) {
-    await delay(200);
-    const idx = promotions.findIndex(p => p.id === id);
-    if (idx === -1) throw new Error('Promotion not found');
-    promotions[idx] = { ...promotions[idx], ...data, updatedAt: new Date().toISOString(), version: promotions[idx].version + 1 };
-    return promotions[idx];
+  async update(id: string, data: Partial<PromotionRule>) {
+    await delay(100);
+    const promo = await db.promotions.get(id);
+    if (!promo) throw new Error('Promotion not found');
+    const updated = { ...promo, ...data, updatedAt: new Date().toISOString(), version: promo.version + 1 };
+    await db.promotions.put(updated);
+    return updated;
   },
 
   async delete(id: string) {
-    await delay(200);
-    promotions = promotions.filter(p => p.id !== id);
+    await delay(100);
+    await db.promotions.delete(id);
   },
 };
 
 // ── Audit API ─────────────────────────────────────────
 export const auditApi = {
   async getAll(page = 1, pageSize = 50, filters?: Record<string, unknown>) {
-    await delay(150);
-    let filtered = [...auditEntries];
+    await delay(100);
+    let collection = db.auditLogs.toCollection();
 
-    if (filters?.entityType && Array.isArray(filters.entityType) && filters.entityType.length > 0) {
-      filtered = filtered.filter(a => (filters.entityType as string[]).includes(a.entityType));
-    }
-    if (filters?.action && Array.isArray(filters.action) && filters.action.length > 0) {
-      filtered = filtered.filter(a => (filters.action as string[]).includes(a.action));
-    }
     if (filters?.search) {
       const q = (filters.search as string).toLowerCase();
-      filtered = filtered.filter(a => a.entityName.toLowerCase().includes(q) || a.userName.toLowerCase().includes(q));
+      collection = db.auditLogs.filter(a => a.entityName.toLowerCase().includes(q) || a.userName.toLowerCase().includes(q));
     }
 
-    const total = filtered.length;
+    let items = await collection.reverse().sortBy('timestamp');
+
+    if (filters?.entityType && Array.isArray(filters.entityType) && filters.entityType.length > 0) {
+      items = items.filter(a => (filters.entityType as string[]).includes(a.entityType));
+    }
+    if (filters?.action && Array.isArray(filters.action) && filters.action.length > 0) {
+      items = items.filter(a => (filters.action as string[]).includes(a.action));
+    }
+
+    const total = items.length;
     const start = (page - 1) * pageSize;
-    const data = filtered.slice(start, start + pageSize);
+    const data = items.slice(start, start + pageSize);
     return { data, total, page, pageSize, totalPages: Math.ceil(total / pageSize), hasNext: start + pageSize < total, hasPrevious: page > 1 };
   },
 };
@@ -219,14 +245,14 @@ export const auditApi = {
 // ── Categories & Brands API ───────────────────────────
 export const categoriesApi = {
   async getAll() {
-    await delay(100);
+    await delay(50);
     return CATEGORIES;
   },
 };
 
 export const brandsApi = {
   async getAll() {
-    await delay(100);
+    await delay(50);
     return BRANDS;
   },
 };

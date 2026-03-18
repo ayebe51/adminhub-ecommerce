@@ -56,6 +56,17 @@ export function generateProduct(index: number): Product {
   const createdDate = new Date(now.getTime() - randomInt(1, 365) * 86400000);
   const updatedDate = new Date(createdDate.getTime() + randomInt(0, 60) * 86400000);
 
+  const PRODUCT_IMAGES: Record<string, string> = {
+    'cat-1': '/assets/products/laptop.png', // Electronics
+    'cat-5': '/assets/products/headphones.png', // Audio
+    'cat-6': '/assets/products/laptop.png', // Computers
+    'cat-7': '/assets/products/watch.png', // Watches
+    'cat-2': '/assets/products/sneakers.png', // Clothing
+    'cat-3': '/assets/products/watch.png', // Accessories
+  };
+
+  const imageUrl = PRODUCT_IMAGES[category.id] || `https://picsum.photos/seed/${index}/400/400`;
+
   return {
     id: uuid(),
     sku: `SKU-${String(index + 1).padStart(6, '0')}`,
@@ -80,7 +91,7 @@ export function generateProduct(index: number): Product {
     tags: pickMany(TAGS, randomInt(1, 4)),
     images: [{
       id: uuid(),
-      url: `https://picsum.photos/seed/${index}/400/400`,
+      url: imageUrl,
       alt: name,
       position: 0,
       isPrimary: true,

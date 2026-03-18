@@ -24,6 +24,7 @@
     "ag-grid-community": "^35.1.0",
     "ag-grid-react": "^35.1.0",
     "date-fns": "^4.1.0",
+    "dexie": "^4.3.0",
     "framer-motion": "^12.38.0",
     "graphql": "^16.13.1",
     "graphql-request": "^7.4.0",
