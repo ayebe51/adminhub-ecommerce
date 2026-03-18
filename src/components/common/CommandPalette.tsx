@@ -46,6 +46,7 @@ export const CommandPalette: React.FC<{ isOpen: boolean; onClose: () => void }> 
 
   useEffect(() => {
     if (isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSearch('');
       setSelectedIndex(0);
       setTimeout(() => inputRef.current?.focus(), 10);

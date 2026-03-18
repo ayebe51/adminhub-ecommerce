@@ -12,7 +12,7 @@ describe('useAuthStore', () => {
 
   it('initially has a mock user (as per app requirements)', () => {
     // We expect the store to start with a mock user because of the initial state in this demo app
-    const store = useAuthStore.getState();
+    useAuthStore.getState();
     // It's manually reset to null in beforeEach, so let's bypass that for a moment
     // Since Zustand state is shared globally in tests without a provider, we just test the methods
   });

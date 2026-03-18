@@ -1,0 +1,20 @@
+
+> e-commerce@0.0.0 test
+> vitest run
+
+
+[31m⎯⎯⎯⎯⎯⎯⎯[1m[7m Startup Error [27m[22m⎯⎯⎯⎯⎯⎯⎯⎯[39m
+TypeError: input.replace is not a function
+    at normalizeWindowsPath (file:///D:/apss-source/fe/e-commerce/node_modules/pathe/dist/shared/pathe.ff20891b.mjs:6:16)
+    at file:///D:/apss-source/fe/e-commerce/node_modules/pathe/dist/shared/pathe.ff20891b.mjs:70:45
+    at Array.map (<anonymous>)
+    at resolve (file:///D:/apss-source/fe/e-commerce/node_modules/pathe/dist/shared/pathe.ff20891b.mjs:70:27)
+    at resolvePath (file:///D:/apss-source/fe/e-commerce/node_modules/vitest/dist/chunks/resolveConfig.rBxzbVsl.js:7718:63)
+    at resolveConfig (file:///D:/apss-source/fe/e-commerce/node_modules/vitest/dist/chunks/resolveConfig.rBxzbVsl.js:8103:122)
+    at Vitest.setServer (file:///D:/apss-source/fe/e-commerce/node_modules/vitest/dist/chunks/cli-api.DqsSTaIi.js:10454:22)
+    at handler (file:///D:/apss-source/fe/e-commerce/node_modules/vitest/dist/chunks/cli-api.DqsSTaIi.js:11421:21)
+    at _createServer (file:///D:/apss-source/fe/e-commerce/node_modules/vitest/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:63337:26)
+    at async createViteServer (file:///D:/apss-source/fe/e-commerce/node_modules/vitest/dist/chunks/cli-api.DqsSTaIi.js:9842:18)
+
+
+
