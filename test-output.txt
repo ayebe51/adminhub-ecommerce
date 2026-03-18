@@ -1,0 +1,34 @@
+
+Running 1 test using 1 worker
+
+[1A[2K[1/1] [chromium] › e2e\core-flow.spec.ts:4:3 › E-Commerce Admin Portal Core Flow › should load the dashboard, open command palette, and navigate to products
+[1A[2K  1) [chromium] › e2e\core-flow.spec.ts:4:3 › E-Commerce Admin Portal Core Flow › should load the dashboard, open command palette, and navigate to products 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('h1').filter({ hasText: 'Product Management' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for locator('h1').filter({ hasText: 'Product Management' })[22m
+
+
+      30 |     
+      31 |     // Check we arrived at the product page
+    > 32 |     await expect(page.locator('h1', { hasText: 'Product Management' })).toBeVisible();
+         |                                                                         ^
+      33 |
+      34 |     // 4. Ag-Grid check
+      35 |     // Ensure the AG Grid wrapper is rendered, proving the virtualized table loaded
+        at D:\apss-source\fe\e-commerce\e2e\core-flow.spec.ts:32:73
+
+    Error Context: test-results\core-flow-E-Commerce-Admin-c1dd6-te-and-navigate-to-products-chromium\error-context.md
+
+
+[1A[2K  1 failed
+    [chromium] › e2e\core-flow.spec.ts:4:3 › E-Commerce Admin Portal Core Flow › should load the dashboard, open command palette, and navigate to products 
+
+[36m  Serving HTML report at http://localhost:9323. Press Ctrl+C to quit.[39m
