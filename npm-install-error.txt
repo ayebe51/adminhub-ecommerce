@@ -1,0 +1,31 @@
+npm error code ERESOLVE
+npm error ERESOLVE could not resolve
+npm error
+npm error While resolving: @storybook/addon-vitest@10.2.19
+npm error Found: @vitest/browser@2.1.9
+npm error node_modules/@vitest/browser
+npm error   dev @vitest/browser@"^2.1.8" from the root project
+npm error   peerOptional @vitest/browser@"2.1.9" from @vitest/coverage-v8@2.1.9
+npm error   node_modules/@vitest/coverage-v8
+npm error     dev @vitest/coverage-v8@"^2.1.8" from the root project
+npm error   1 more (vitest)
+npm error
+npm error Could not resolve dependency:
+npm error peerOptional @vitest/browser@"^3.0.0 || ^4.0.0" from @storybook/addon-vitest@10.2.19
+npm error node_modules/@storybook/addon-vitest
+npm error   dev @storybook/addon-vitest@"^10.2.19" from the root project
+npm error
+npm error Conflicting peer dependency: @vitest/browser@4.1.0
+npm error node_modules/@vitest/browser
+npm error   peerOptional @vitest/browser@"^3.0.0 || ^4.0.0" from @storybook/addon-vitest@10.2.19
+npm error   node_modules/@storybook/addon-vitest
+npm error     dev @storybook/addon-vitest@"^10.2.19" from the root project
+npm error
+npm error Fix the upstream dependency conflict, or retry
+npm error this command with --force or --legacy-peer-deps
+npm error to accept an incorrect (and potentially broken) dependency resolution.
+npm error
+npm error
+npm error For a full report see:
+npm error C:\Users\user\AppData\Local\npm-cache\_logs\2026-03-18T02_49_35_143Z-eresolve-report.txt
+npm error A complete log of this run can be found in: C:\Users\user\AppData\Local\npm-cache\_logs\2026-03-18T02_49_35_143Z-debug-0.log
