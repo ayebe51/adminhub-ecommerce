@@ -12,22 +12,10 @@ const AuditPage = lazy(() => import('@/features/audit/AuditPage').then(m => ({ d
 const FeatureFlagsPage = lazy(() => import('@/features/flags/FeatureFlagsPage').then(m => ({ default: m.FeatureFlagsPage })));
 const SettingsPage = lazy(() => import('@/features/settings/SettingsPage').then(m => ({ default: m.SettingsPage })));
 
-const LoadingFallback = () => (
-  <div style={{
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    height: '50vh', color: 'var(--color-text-tertiary)', fontSize: '14px',
-  }}>
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-      <div style={{
-        width: '32px', height: '32px', border: '3px solid var(--color-border-primary)',
-        borderTopColor: 'var(--color-brand-500)', borderRadius: '50%',
-        animation: 'spin 0.8s linear infinite',
-      }} />
-      <span>Loading module...</span>
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-    </div>
-  </div>
-);
+import { Toaster } from 'sonner';
+import { PageSkeleton } from '@/components/common/Skeleton';
+
+const LoadingFallback = () => <PageSkeleton />;
 
 const router = createBrowserRouter([
   {
@@ -57,6 +45,7 @@ const queryClient = new QueryClient({
 
 const App: React.FC = () => (
   <QueryClientProvider client={queryClient}>
+    <Toaster position="top-right" richColors closeButton />
     <RouterProvider router={router} />
   </QueryClientProvider>
 );

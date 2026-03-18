@@ -12,25 +12,22 @@ import {
   Flag,
   ShieldCheck,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
-interface NavItem {
-  label: string;
-  path: string;
-  icon: React.ReactNode;
-  badge?: string;
-}
 
-const navItems: NavItem[] = [
-  { label: 'Dashboard', path: '/', icon: <LayoutDashboard size={20} /> },
-  { label: 'Products', path: '/products', icon: <Package size={20} />, badge: '10k+' },
-  { label: 'Inventory', path: '/inventory', icon: <Warehouse size={20} /> },
-  { label: 'Promotions', path: '/promotions', icon: <Zap size={20} /> },
-  { label: 'Audit Log', path: '/audit', icon: <ClipboardList size={20} /> },
-  { label: 'Feature Flags', path: '/flags', icon: <Flag size={20} /> },
-  { label: 'Settings', path: '/settings', icon: <Settings size={20} /> },
+
+const navItems = [
+  { labelKey: 'common.dashboard', path: '/', icon: <LayoutDashboard size={20} /> },
+  { labelKey: 'common.products', path: '/products', icon: <Package size={20} />, badge: '10k+' },
+  { labelKey: 'common.inventory', path: '/inventory', icon: <Warehouse size={20} /> },
+  { labelKey: 'common.promotions', path: '/promotions', icon: <Zap size={20} /> },
+  { labelKey: 'common.audit', path: '/audit', icon: <ClipboardList size={20} /> },
+  { labelKey: 'common.flags', path: '/flags', icon: <Flag size={20} /> },
+  { labelKey: 'common.settings', path: '/settings', icon: <Settings size={20} /> },
 ];
 
 export const Sidebar: React.FC = () => {
+  const { t } = useTranslation();
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
 
@@ -116,7 +113,7 @@ export const Sidebar: React.FC = () => {
                 position: 'relative',
                 justifyContent: collapsed ? 'center' : 'flex-start',
               }}
-              title={collapsed ? item.label : undefined}
+              title={collapsed ? t(item.labelKey) : undefined}
               onMouseEnter={(e) => {
                 if (!isActive) {
                   e.currentTarget.style.background = 'var(--color-surface-hover)';
@@ -147,7 +144,7 @@ export const Sidebar: React.FC = () => {
               <span style={{ flexShrink: 0, display: 'flex' }}>{item.icon}</span>
               {!collapsed && (
                 <>
-                  <span style={{ flex: 1 }}>{item.label}</span>
+                  <span style={{ flex: 1 }}>{t(item.labelKey)}</span>
                   {item.badge && (
                     <span
                       style={{
@@ -198,7 +195,7 @@ export const Sidebar: React.FC = () => {
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
           {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
-          {!collapsed && <span>Collapse</span>}
+          {!collapsed && <span>{t('common.actions') === 'Actions' ? 'Collapse' : 'Sembunyikan'}</span>}
         </button>
       </div>
     </aside>

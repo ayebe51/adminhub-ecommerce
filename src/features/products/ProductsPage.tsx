@@ -9,6 +9,8 @@ import { productsApi } from '@/mocks/api';
 import { useBulkOperations } from '@/store/useBulkOperations';
 import type { Product, ProductStatus } from '@/types';
 import Papa from 'papaparse';
+import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -44,7 +46,7 @@ export const ProductsPage: React.FC = () => {
   const [showBulkPanel, setShowBulkPanel] = useState(false);
   const [bulkAction, setBulkAction] = useState('');
   const [bulkValue, setBulkValue] = useState('');
-  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
+  const { t } = useTranslation();
   const pushOperation = useBulkOperations((s) => s.pushOperation);
 
   const loadProducts = useCallback(async (searchTerm?: string) => {
@@ -63,8 +65,9 @@ export const ProductsPage: React.FC = () => {
   }, [loadProducts]);
 
   const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' = 'success') => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
+    if (type === 'success') toast.success(message);
+    else if (type === 'error') toast.error(message);
+    else toast.info(message);
   }, []);
 
   const columnDefs = useMemo<ColDef<Product>[]>(() => [
@@ -83,7 +86,7 @@ export const ProductsPage: React.FC = () => {
       cellStyle: { fontSize: '12px', color: 'var(--color-text-secondary)' } as Record<string, string | number>,
     },
     {
-      headerName: 'Product Name',
+      headerName: t('common.products'),
       field: 'name',
       flex: 2,
       minWidth: 250,
@@ -180,7 +183,7 @@ export const ProductsPage: React.FC = () => {
       sort: 'desc',
       cellStyle: { fontSize: '12px', color: 'var(--color-text-tertiary)' } as Record<string, string | number>,
     },
-  ], []);
+  ], [t]);
 
   const defaultColDef = useMemo<ColDef>(() => ({
     sortable: true,
@@ -476,24 +479,6 @@ export const ProductsPage: React.FC = () => {
         />
       </div>
 
-      {/* Toast Notification */}
-      {toast && (
-        <div
-          className="animate-slide-in-up"
-          style={{
-            position: 'fixed', bottom: '24px', right: '24px',
-            padding: '14px 20px', borderRadius: 'var(--radius-lg)',
-            background: toast.type === 'success' ? 'var(--color-status-success)' : toast.type === 'error' ? 'var(--color-status-danger)' : 'var(--color-status-info)',
-            color: 'white', fontSize: '14px', fontWeight: 500,
-            boxShadow: 'var(--shadow-xl)',
-            zIndex: 'var(--z-toast)' as unknown as number,
-            display: 'flex', alignItems: 'center', gap: '8px',
-          }}
-        >
-          {toast.type === 'success' ? <CheckCircle2 size={16} /> : <AlertCircle size={16} />}
-          {toast.message}
-        </div>
-      )}
     </div>
   );
 };

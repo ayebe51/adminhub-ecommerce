@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, AreaChart, Area, PieChart, Pie, Cell } from 'recharts';
 import { productsApi, inventoryApi } from '@/mocks/api';
+import { useTranslation } from 'react-i18next';
 
 const revenueData = [
   { name: 'Jan', revenue: 42000, orders: 380 },
@@ -32,7 +33,7 @@ interface StatCardProps {
   color: string;
 }
 
-const StatCard: React.FC<StatCardProps> = ({ title, value, change, changeType, icon, color }) => (
+const StatCard: React.FC<StatCardProps & { vsLastMonth?: string }> = ({ title, value, change, changeType, icon, color, vsLastMonth }) => (
   <div
     className="animate-fade-in"
     style={{
@@ -92,12 +93,13 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, change, changeType, i
         {changeType === 'up' ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
         {change}
       </div>
-      <span style={{ fontSize: '12px', color: 'var(--color-text-tertiary)' }}>vs last month</span>
+      <span style={{ fontSize: '12px', color: 'var(--color-text-tertiary)' }}>{vsLastMonth || 'vs last month'}</span>
     </div>
   </div>
 );
 
 export const DashboardPage: React.FC = () => {
+  const { t } = useTranslation();
   const [stats, setStats] = useState<{ total: number; inStock: number; lowStock: number; outOfStock: number; totalValue: number } | null>(null);
   const [productCount, setProductCount] = useState(0);
 
@@ -111,7 +113,7 @@ export const DashboardPage: React.FC = () => {
       {/* Page Title */}
       <div>
         <h1 style={{ fontSize: '24px', fontWeight: 700, color: 'var(--color-text-primary)', margin: 0 }}>
-          Dashboard
+          {t('common.dashboard')}
         </h1>
         <p style={{ fontSize: '14px', color: 'var(--color-text-tertiary)', marginTop: '4px' }}>
           Overview of your e-commerce operations
@@ -121,36 +123,40 @@ export const DashboardPage: React.FC = () => {
       {/* Stat Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
         <StatCard
-          title="Total Products"
+          title={t('dashboard.total_products')}
           value={productCount.toLocaleString()}
           change="+12.5%"
           changeType="up"
           icon={<Package size={22} />}
           color="#6366f1"
+          vsLastMonth={t('dashboard.vs_last_month')}
         />
         <StatCard
-          title="Total Revenue"
+          title={t('dashboard.total_revenue')}
           value="$72,450"
           change="+8.2%"
           changeType="up"
           icon={<DollarSign size={22} />}
           color="#10b981"
+          vsLastMonth={t('dashboard.vs_last_month')}
         />
         <StatCard
-          title="Active Orders"
+          title={t('dashboard.active_orders')}
           value="1,284"
           change="+23.1%"
           changeType="up"
           icon={<ShoppingCart size={22} />}
           color="#8b5cf6"
+          vsLastMonth={t('dashboard.vs_last_month')}
         />
         <StatCard
-          title="Low Stock Alerts"
+          title={t('dashboard.low_stock')}
           value={stats?.lowStock?.toString() || '—'}
           change={stats?.outOfStock ? `${stats.outOfStock} out` : '—'}
           changeType="down"
           icon={<AlertTriangle size={22} />}
           color="#f59e0b"
+          vsLastMonth={t('dashboard.vs_last_month')}
         />
       </div>
 
@@ -169,8 +175,8 @@ export const DashboardPage: React.FC = () => {
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <div>
-              <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'var(--color-text-primary)', margin: 0 }}>Revenue Overview</h3>
-              <p style={{ fontSize: '13px', color: 'var(--color-text-tertiary)', margin: 0 }}>Monthly revenue trends</p>
+              <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'var(--color-text-primary)', margin: 0 }}>{t('dashboard.revenue_overview')}</h3>
+              <p style={{ fontSize: '13px', color: 'var(--color-text-tertiary)', margin: 0 }}>{t('dashboard.revenue_overview')}</p>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--color-text-success)', fontSize: '14px', fontWeight: 600 }}>
               <ArrowUpRight size={16} /> +24.5%
@@ -216,7 +222,7 @@ export const DashboardPage: React.FC = () => {
           }}
         >
           <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'var(--color-text-primary)', margin: '0 0 20px 0' }}>
-            Sales by Category
+            {t('dashboard.sales_by_category')}
           </h3>
           <div style={{ height: '200px' }}>
             <ResponsiveContainer width="100%" height="100%">

@@ -3,15 +3,17 @@ import { useLocation, Link } from 'react-router-dom';
 import { Bell, Search, Undo2, Redo2, ChevronRight, Sun, Moon } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useBulkOperations } from '@/store/useBulkOperations';
+import { LanguageSwitcher } from '../common/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
-const breadcrumbMap: Record<string, string> = {
-  '/': 'Dashboard',
-  '/products': 'Products',
-  '/inventory': 'Inventory',
-  '/promotions': 'Promotions',
-  '/audit': 'Audit Log',
-  '/flags': 'Feature Flags',
-  '/settings': 'Settings',
+const breadcrumbKeys: Record<string, string> = {
+  '/': 'common.dashboard',
+  '/products': 'common.products',
+  '/inventory': 'common.inventory',
+  '/promotions': 'common.promotions',
+  '/audit': 'common.audit',
+  '/flags': 'common.flags',
+  '/settings': 'common.settings',
 };
 
 interface HeaderProps {
@@ -34,12 +36,14 @@ export const Header: React.FC<HeaderProps> = ({ onOpenPalette }) => {
   const user = useAuthStore((s) => s.user);
   const { canUndo, canRedo, undo, redo, getUndoDescription, getRedoDescription } = useBulkOperations();
 
+  const { t } = useTranslation();
   const pathSegments = location.pathname.split('/').filter(Boolean);
   const breadcrumbs = [
-    { label: 'Dashboard', path: '/' },
+    { label: t('common.dashboard'), path: '/' },
     ...pathSegments.map((_, i) => {
       const path = '/' + pathSegments.slice(0, i + 1).join('/');
-      return { label: breadcrumbMap[path] || pathSegments[i], path };
+      const key = breadcrumbKeys[path];
+      return { label: key ? t(key) : pathSegments[i], path };
     }),
   ];
 
@@ -136,6 +140,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenPalette }) => {
           </button>
         </div>
 
+        {/* Language Switcher */}
+        <LanguageSwitcher />
+
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
@@ -177,7 +184,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenPalette }) => {
           aria-label="Search"
         >
           <Search size={15} />
-          <span>Search...</span>
+          <span>{t('common.search')}</span>
           <span
             style={{
               marginLeft: 'auto',

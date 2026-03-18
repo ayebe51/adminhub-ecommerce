@@ -1,0 +1,42 @@
+{
+  "common": {
+    "dashboard": "Beranda",
+    "products": "Produk",
+    "inventory": "Stok",
+    "promotions": "Promosi",
+    "audit": "Log Audit",
+    "flags": "Fitur Premium",
+    "settings": "Pengaturan",
+    "actions": "Aksi",
+    "cancel": "Batal",
+    "search": "Cari...",
+    "loading": "Memuat..."
+  },
+  "dashboard": {
+    "title": "Ringkasan Admin",
+    "total_products": "Total Produk",
+    "total_revenue": "Total Pendapatan",
+    "active_orders": "Pesanan Aktif",
+    "low_stock": "Peringatan Stok Rendah",
+    "revenue_overview": "Ikhtisar Pendapatan",
+    "sales_by_category": "Penjualan per Kategori",
+    "vs_last_month": "vs bulan lalu",
+    "active_promos": "Promo Aktif",
+    "stock_alerts": "Peringatan Stok",
+    "recent_activity": "Aktivitas Terbaru"
+  },
+  "products": {
+    "title": "Manajemen Produk",
+    "bulk_edit": "Ubah Massal",
+    "import": "Impor CSV",
+    "export": "Ekspor CSV"
+  },
+  "promotions": {
+    "title": "Promosi",
+    "magic_title": "AI Magic Rule Builder",
+    "magic_subtitle": "Ketik ide promosi Anda dalam bahasa sehari-hari",
+    "generate": "Buat Aturan",
+    "create": "Buat Baru",
+    "preview": "Pratinjau Efek Promosi"
+  }
+}

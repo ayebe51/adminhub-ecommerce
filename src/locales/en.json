@@ -1,0 +1,42 @@
+{
+  "common": {
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "inventory": "Inventory",
+    "promotions": "Promotions",
+    "audit": "Audit Log",
+    "flags": "Feature Flags",
+    "settings": "Settings",
+    "actions": "Actions",
+    "cancel": "Cancel",
+    "search": "Search...",
+    "loading": "Loading..."
+  },
+  "dashboard": {
+    "title": "Admin Overview",
+    "total_products": "Total Products",
+    "total_revenue": "Total Revenue",
+    "active_orders": "Active Orders",
+    "low_stock": "Low Stock Alerts",
+    "revenue_overview": "Revenue Overview",
+    "sales_by_category": "Sales by Category",
+    "vs_last_month": "vs last month",
+    "active_promos": "Active Promos",
+    "stock_alerts": "Stock Alerts",
+    "recent_activity": "Recent Activity"
+  },
+  "products": {
+    "title": "Product Management",
+    "bulk_edit": "Bulk Edit",
+    "import": "Import CSV",
+    "export": "Export CSV"
+  },
+  "promotions": {
+    "title": "Promotions",
+    "magic_title": "AI Magic Rule Builder",
+    "magic_subtitle": "Type your promotion idea in natural language",
+    "generate": "Generate Rule",
+    "create": "Create Rule",
+    "preview": "Preview Promotion Effect"
+  }
+}

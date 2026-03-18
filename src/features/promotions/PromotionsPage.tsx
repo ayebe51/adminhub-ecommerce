@@ -7,6 +7,8 @@ import {
 import { promotionsApi } from '@/mocks/api';
 import type { PromotionRule, PromotionStatus, ConditionGroup, Condition, PromotionAction } from '@/types';
 import { v4 as uuid } from 'uuid';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 
 const statusConfig: Record<PromotionStatus, { color: string; bg: string; icon: React.ReactNode; label: string }> = {
   active: { color: '#34d399', bg: 'rgba(52,211,153,0.12)', icon: <Play size={12} />, label: 'Active' },
@@ -418,6 +420,7 @@ const RuleBuilderModal: React.FC<RuleBuilderModalProps> = ({ isOpen, onClose, on
 
 // ── Promotions Page ─────────────────────────────────
 export const PromotionsPage: React.FC = () => {
+  const { t } = useTranslation();
   const [promotions, setPromotions] = useState<PromotionRule[]>([]);
   const [loading, setLoading] = useState(true);
   const [showBuilder, setShowBuilder] = useState(false);
@@ -516,11 +519,13 @@ export const PromotionsPage: React.FC = () => {
     }
     setShowBuilder(false);
     setEditingRule(null);
+    toast.success(editingRule ? 'Promotion updated' : 'Promotion created');
     loadPromotions();
   };
 
   const handleDelete = async (id: string) => {
     await promotionsApi.delete(id);
+    toast.success('Promotion deleted');
     loadPromotions();
   };
 
@@ -548,8 +553,8 @@ export const PromotionsPage: React.FC = () => {
             <Zap size={16} fill="white" />
           </div>
           <div>
-            <h2 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--color-text-primary)', margin: 0 }}>AI Magic Rule Builder</h2>
-            <p style={{ fontSize: '12px', color: 'var(--color-text-tertiary)', margin: 0 }}>Type your promotion idea in natural language</p>
+            <h2 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--color-text-primary)', margin: 0 }}>{t('promotions.magic_title')}</h2>
+            <p style={{ fontSize: '12px', color: 'var(--color-text-tertiary)', margin: 0 }}>{t('promotions.magic_subtitle')}</p>
           </div>
         </div>
 
@@ -597,7 +602,7 @@ export const PromotionsPage: React.FC = () => {
               transition: 'transform var(--transition-fast)',
             }}
           >
-            {isAiProcessing ? 'Processing...' : 'Generate Rule'}
+            {isAiProcessing ? t('common.loading') : t('promotions.generate')}
           </button>
         </form>
         
@@ -613,9 +618,9 @@ export const PromotionsPage: React.FC = () => {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h1 style={{ fontSize: '24px', fontWeight: 700, color: 'var(--color-text-primary)', margin: 0 }}>Promotions</h1>
+          <h1 style={{ fontSize: '24px', fontWeight: 700, color: 'var(--color-text-primary)', margin: 0 }}>{t('promotions.title')}</h1>
           <p style={{ fontSize: '14px', color: 'var(--color-text-tertiary)', marginTop: '2px' }}>
-            {promotions.length} rules • Rule-based promotion engine
+            {promotions.length} rules • {t('promotions.preview')}
           </p>
         </div>
         <button
