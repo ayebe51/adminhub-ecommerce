@@ -11,7 +11,6 @@ const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(file
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
-  // @ts-expect-error Type mismatch between vite and vitest/config plugins
   plugins: [
     react(), 
     tailwindcss(),
@@ -27,6 +26,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
     css: true,
+    // @ts-expect-error Storybook vitest plugin adds a workspace object which Vite config typings strictly expect as string
     workspace: [{
       extends: true,
       plugins: [
